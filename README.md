@@ -43,9 +43,7 @@ All dependencies are defined in `package.json`:
 Version management is built into the automation scripts:
 
 ```bash
-npm run version:patch  # Bump patch version (1.0.0 → 1.0.1)
-npm run version:minor  # Bump minor version (1.0.0 → 1.1.0)
-npm run version:major  # Bump major version (1.0.0 → 2.0.0)
+npm run version:patch  
 ```
 
 Current version: **1.0.0** (defined in `package.json`)
@@ -143,23 +141,9 @@ Run the test suite (type checking + linting):
 npm run test
 ```
 
-Individual checks:
-
-```bash
-npm run typecheck  # TypeScript type validation
-npm run lint       # ESLint code quality check
-```
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📚 Additional Resources
-
-- [Vite Documentation](https://vitejs.dev/)
-- [React Documentation](https://react.dev/)
-- [TypeScript Documentation](https://www.typescriptlang.org/)
-- [Supabase Documentation](https://supabase.com/docs)
-- [npm Documentation](https://docs.npmjs.com/)
 
 ---
