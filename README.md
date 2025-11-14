@@ -163,5 +163,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [npm Documentation](https://docs.npmjs.com/)
 
 ---
-
-**Built with ❤️ for the Build Tools Demonstration Project**
