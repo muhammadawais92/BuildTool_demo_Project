@@ -2,7 +2,6 @@
 
 A full-featured task management web application that demonstrates comprehensive build automation using **Vite**, **npm**, **React**, **TypeScript**, and **Supabase**. This project showcases modern build tool capabilities including dependency management, TypeScript compilation, bundling optimization, and production-ready packaging.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ## Project Overview
@@ -46,7 +45,6 @@ Version management is built into the automation scripts:
 npm run version:patch  
 ```
 
-Current version: **1.0.0** (defined in `package.json`)
 
 ### 3. Packaging 
 
