@@ -35,7 +35,9 @@ export default function TaskEditForm({ task, onClose, onTaskUpdated }: TaskEditF
         })
         .eq('id', task.id);
 
-      if (error) throw error;
+      if (error) {
+throw error;
+}
 
       onTaskUpdated();
       onClose();

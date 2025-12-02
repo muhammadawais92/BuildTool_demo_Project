@@ -17,10 +17,14 @@ export default function Auth() {
     try {
       if (isSignUp) {
         const { error } = await supabase.auth.signUp({ email, password });
-        if (error) throw error;
+        if (error) {
+throw error;
+}
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+throw error;
+}
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

@@ -22,7 +22,9 @@ export default function TaskCard({ task, onStatusChange, onDelete, onEdit }: Tas
   };
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return null;
+    if (!dateString) {
+return null;
+}
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',

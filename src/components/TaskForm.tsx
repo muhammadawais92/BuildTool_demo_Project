@@ -16,13 +16,15 @@ export default function TaskForm({ onClose, onTaskCreated }: TaskFormProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
     setError('');
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!user) {
+throw new Error('Not authenticated');
+}
 
       const { error } = await supabase.from('tasks').insert({
         title,
@@ -33,7 +35,9 @@ export default function TaskForm({ onClose, onTaskCreated }: TaskFormProps) {
         status: 'pending',
       });
 
-      if (error) throw error;
+      if (error) {
+throw error;
+}
 
       onTaskCreated();
       onClose();

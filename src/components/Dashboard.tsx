@@ -23,7 +23,9 @@ export default function Dashboard() {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+throw error;
+}
       setTasks(data || []);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -39,7 +41,9 @@ export default function Dashboard() {
         .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', taskId);
 
-      if (error) throw error;
+      if (error) {
+throw error;
+}
       fetchTasks();
     } catch (error) {
       console.error('Error updating task:', error);
@@ -47,11 +51,15 @@ export default function Dashboard() {
   };
 
   const handleDelete = async (taskId: string) => {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+    if (!confirm('Are you sure you want to delete this task?')) {
+return;
+}
 
     try {
       const { error } = await supabase.from('tasks').delete().eq('id', taskId);
-      if (error) throw error;
+      if (error) {
+throw error;
+}
       fetchTasks();
     } catch (error) {
       console.error('Error deleting task:', error);
