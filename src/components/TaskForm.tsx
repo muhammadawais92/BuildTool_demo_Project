@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { X, Calendar } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 interface TaskFormProps {
   onClose: () => void;
@@ -16,33 +17,37 @@ export default function TaskForm({ onClose, onTaskCreated }: TaskFormProps) {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     setError('');
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-throw new Error('Not authenticated');
-}
+        throw new Error('Not authenticated');
+      }
 
-      const { error } = await supabase.from('tasks').insert({
+      const { data, error } = await supabase.from('tasks').insert({
         title,
         description,
         priority,
         due_date: dueDate || null,
         user_id: user.id,
         status: 'pending',
-      });
+      }).select();
 
       if (error) {
-throw error;
-}
+        throw error;
+      }
 
+      logger.info('Task created', { taskId: data?.[0]?.id, title });
       onTaskCreated();
       onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create task');
+    } catch (err: any) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create task';
+      const errorInfo = err?.code ? { code: err.code, message: err.message } : { error: errorMessage };
+      logger.error('Failed to create task', errorInfo);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -130,13 +135,13 @@ throw error;
           )}
 
           <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
-            >
-              Cancel
-            </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+          >
+            Cancel
+          </button>
             <button
               type="submit"
               disabled={loading}

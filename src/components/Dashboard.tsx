@@ -4,6 +4,7 @@ import TaskCard from './TaskCard';
 import TaskForm from './TaskForm';
 import TaskEditForm from './TaskEditForm';
 import { Plus, LogOut, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -24,11 +25,13 @@ export default function Dashboard() {
         .order('created_at', { ascending: false });
 
       if (error) {
-throw error;
-}
+        throw error;
+      }
       setTasks(data || []);
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
+      logger.debug('Tasks fetched', { count: data?.length || 0 });
+    } catch (error: any) {
+      const errorInfo = error?.code ? { code: error.code, message: error.message } : error;
+      logger.error('Failed to fetch tasks', errorInfo);
     } finally {
       setLoading(false);
     }
@@ -42,32 +45,45 @@ throw error;
         .eq('id', taskId);
 
       if (error) {
-throw error;
-}
+        throw error;
+      }
+      logger.info('Task status updated', { taskId, status: newStatus });
       fetchTasks();
-    } catch (error) {
-      console.error('Error updating task:', error);
+    } catch (error: any) {
+      const errorInfo = error?.code ? { code: error.code, message: error.message } : error;
+      logger.error('Failed to update task status', errorInfo);
     }
   };
 
   const handleDelete = async (taskId: string) => {
     if (!confirm('Are you sure you want to delete this task?')) {
-return;
-}
+      return;
+    }
 
     try {
       const { error } = await supabase.from('tasks').delete().eq('id', taskId);
       if (error) {
-throw error;
-}
+        throw error;
+      }
+      logger.info('Task deleted', { taskId });
       fetchTasks();
-    } catch (error) {
-      console.error('Error deleting task:', error);
+    } catch (error: any) {
+      const errorInfo = error?.code ? { code: error.code, message: error.message } : error;
+      logger.error('Failed to delete task', errorInfo);
     }
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        logger.warn('Sign out error', error);
+      } else {
+        logger.info('User signed out');
+      }
+    } catch (error) {
+      logger.error('Failed to sign out', error);
+    }
   };
 
   const filteredTasks = filter === 'all'
