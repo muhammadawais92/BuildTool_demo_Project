@@ -15,7 +15,12 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "test": "npm run typecheck && npm run lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "docs": "typedoc",
+    "docs:serve": "npm run docs && npx http-server docs/api -o",
     "prebuild": "echo '🔧 Starting build process...' && npm run clean",
     "postbuild": "echo '✅ Build completed successfully! Output in ./dist'",
     "version:patch": "npm version patch",
@@ -31,6 +36,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -40,12 +48,15 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
     "husky": "^9.1.7",
+    "jsdom": "^27.2.0",
     "lint-staged": "^16.2.7",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "terser": "^5.44.0",
+    "typedoc": "^0.28.15",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "vitest": "^4.0.15"
   }
 }
