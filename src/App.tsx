@@ -1,9 +1,28 @@
+/**
+ * Main Application Component
+ * 
+ * This is the root component that handles authentication state and renders
+ * either the Auth component (for login/signup) or the Dashboard component
+ * (for authenticated users).
+ * 
+ * @module App
+ */
+
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabase';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
 import type { Session } from '@supabase/supabase-js';
 
+/**
+ * App Component
+ * 
+ * Manages authentication state and displays appropriate UI based on user session.
+ * Shows a loading spinner while checking authentication status.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered application
+ */
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { LogIn } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
@@ -20,14 +21,18 @@ export default function Auth() {
         if (error) {
 throw error;
 }
+        logger.info('User signed up', { email });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
 throw error;
 }
+        logger.info('User signed in', { email });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      logger.error('Authentication failed', { email, error: errorMessage });
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

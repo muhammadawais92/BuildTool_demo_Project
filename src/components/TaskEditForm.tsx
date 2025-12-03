@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase, Task } from '../lib/supabase';
 import { X, Calendar } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 interface TaskEditFormProps {
   task: Task;
@@ -36,13 +37,17 @@ export default function TaskEditForm({ task, onClose, onTaskUpdated }: TaskEditF
         .eq('id', task.id);
 
       if (error) {
-throw error;
-}
+        throw error;
+      }
 
+      logger.info('Task updated', { taskId: task.id, title });
       onTaskUpdated();
       onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update task');
+    } catch (err: any) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update task';
+      const errorInfo = err?.code ? { code: err.code, message: err.message, taskId: task.id } : { taskId: task.id, error: errorMessage };
+      logger.error('Failed to update task', errorInfo);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -130,13 +135,13 @@ throw error;
           )}
 
           <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
-            >
-              Cancel
-            </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+          >
+            Cancel
+          </button>
             <button
               type="submit"
               disabled={loading}

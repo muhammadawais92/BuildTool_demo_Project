@@ -118,4 +118,3 @@ class Logger {
  * @type {Logger}
  */
 export const logger = new Logger();
-

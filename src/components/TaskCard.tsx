@@ -1,6 +1,24 @@
+/**
+ * TaskCard Component
+ * 
+ * Displays a single task with its details, status, priority, and action buttons.
+ * Allows users to change task status, edit, or delete the task.
+ * 
+ * @module TaskCard
+ */
+
 import { Task } from '../lib/supabase';
 import { Calendar, Trash2, Edit } from 'lucide-react';
 
+/**
+ * Props for the TaskCard component
+ * 
+ * @interface TaskCardProps
+ * @property {Task} task - The task object to display
+ * @property {Function} onStatusChange - Callback when task status is changed
+ * @property {Function} onDelete - Callback when task is deleted
+ * @property {Function} onEdit - Callback when edit button is clicked
+ */
 interface TaskCardProps {
   task: Task;
   onStatusChange: (taskId: string, newStatus: Task['status']) => void;
@@ -8,6 +26,16 @@ interface TaskCardProps {
   onEdit: (task: Task) => void;
 }
 
+/**
+ * TaskCard Component
+ * 
+ * Renders a card displaying task information with interactive controls.
+ * Features color-coded priority badges and status dropdown.
+ * 
+ * @component
+ * @param {TaskCardProps} props - Component props
+ * @returns {JSX.Element} The rendered task card
+ */
 export default function TaskCard({ task, onStatusChange, onDelete, onEdit }: TaskCardProps) {
   const priorityColors = {
     low: 'bg-green-100 text-green-800 border-green-200',
