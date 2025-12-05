@@ -255,7 +255,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 2. Open **SQL Editor**
 3. Run the SQL from `supabase/migrations/20251029094241_create_tasks_table.sql`
 
-See [SETUP_DATABASE.md](SETUP_DATABASE.md) for detailed instructions.
+See https://supabase.com/docs/guides/database/overview for detailed instructions.
 
 ### Error: Application won't start
 
