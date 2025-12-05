@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { supabase, Task } from '../lib/supabase';
 import TaskCard from './TaskCard';
-import TaskForm from './TaskForm'
-import TaskEditForm from './TaskEditForm'
+import TaskForm from './TaskForm';
+import TaskEditForm from './TaskEditForm';
 import { Plus, LogOut, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
-import { logger } from '../lib/logger'
+import { logger } from '../lib/logger';
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([]);
