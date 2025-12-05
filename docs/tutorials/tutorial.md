@@ -270,5 +270,3 @@ Now that you're familiar with the basics:
 - Check the [README.md](../../README.md) for more information
 - Review the API documentation in `docs/api/`
 - Check the GitHub repository for issues and discussions
-
-Happy task managing! 🎉
