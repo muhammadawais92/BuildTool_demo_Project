@@ -191,41 +191,6 @@ npm run docs:serve
 
 For a step-by-step guide on using the Task Manager, see the [Tutorial](docs/tutorials/tutorial.md).
 
-## Project Structure
-
-```
-task-manager-build-demo/
-├── src/
-│   ├── components/        # React components
-│   │   ├── __tests__/    # Component tests
-│   │   ├── Auth.tsx
-│   │   ├── Dashboard.tsx
-│   │   ├── TaskCard.tsx
-│   │   ├── TaskForm.tsx
-│   │   └── TaskEditForm.tsx
-│   ├── lib/              # Utility modules
-│   │   ├── __tests__/    # Library tests
-│   │   ├── logger.ts     # Logging utility
-│   │   └── supabase.ts   # Supabase client
-│   ├── test/             # Test configuration
-│   ├── App.tsx           # Main app component
-│   ├── main.tsx          # Entry point
-│   └── index.css         # Global styles
-├── docs/
-│   ├── api/              # Generated API docs
-│   └── tutorials/        # User tutorials
-├── supabase/
-│   └── migrations/       # Database migrations
-├── .env                  # Environment variables
-├── package.json          # Dependencies and scripts
-├── vite.config.ts        # Vite configuration
-├── vitest.config.ts      # Vitest configuration
-├── typedoc.json          # TypeDoc configuration
-├── tsconfig.json         # TypeScript configuration
-└── LICENSE               # MIT License
-
-```
-
 ## Logging
 
 The application includes a comprehensive logging system with multiple log levels:
