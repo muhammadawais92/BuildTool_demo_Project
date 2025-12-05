@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { supabase, Task } from '../lib/supabase';
 import TaskCard from './TaskCard';
-import TaskForm from './TaskForm';
-import TaskEditForm from './TaskEditForm';
+import TaskForm from './TaskForm'
+import TaskEditForm from './TaskEditForm'
 import { Plus, LogOut, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 import { logger } from '../lib/logger';
 
@@ -110,7 +110,7 @@ export default function Dashboard() {
               onClick={handleSignOut}
               className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className='w-5 h-5' />
               Sign Out
             </button>
           </div>
