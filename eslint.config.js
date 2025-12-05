@@ -22,13 +22,13 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
 
-      // ============ SEMICOLON RULES ============
+      //SEMICOLON RULES
       'semi': ['error', 'always'],
 
-      // ============ QUOTATION RULES ============
+      //QUOTATION RULES
       'quotes': ['error', 'single', { avoidEscape: true }],
 
-      // ============ BRACKET AND SPACING RULES ============
+      //BRACKET AND SPACING RULES
       'comma-spacing': ['error', { before: false, after: true }],
       'key-spacing': ['error', { beforeColon: false, afterColon: true }],
       'object-curly-spacing': ['error', 'always'],
@@ -44,7 +44,7 @@ export default tseslint.config(
       'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
       'eol-last': ['error', 'always'],
 
-      // ============ ERROR HANDLING RULES ============
+      //ERROR HANDLING RULES 
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'error',
       'no-unused-vars': 'off',
@@ -52,7 +52,7 @@ export default tseslint.config(
       'no-unreachable-loop': 'error',
       'no-unsafe-optional-chaining': 'error',
 
-      // ============ TYPESCRIPT-SPECIFIC RULES ============
+      //TYPESCRIPT-SPECIFIC RULES
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -63,7 +63,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-undef': 'off',
 
-      // ============ REACT-SPECIFIC RULES ============
+      //REACT-SPECIFIC RULES 
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
