@@ -45,11 +45,11 @@ jobs:
       - name: Scan for secrets
         uses: gitleaks/gitleaks-action@v2
         with:
-          format: sarif
-          output: results.sarif
+          args: detect --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif
 
       - name: Upload Gitleaks report
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4
         with:
-          name: gitleaks-report-${{ github.run_id }}
+          name: gitleaks-report-${{ github.run_id }}-${{ matrix.node-version }}
           path: results.sarif
+
