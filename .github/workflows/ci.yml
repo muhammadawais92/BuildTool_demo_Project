@@ -2,15 +2,18 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
+      - '**'  # run on all branches
   pull_request:
 
 jobs:
-  build-test:
+  build-test-lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [18, 20, 22]  # Node versions to test
 
     steps:
       - name: Checkout code
@@ -33,9 +36,20 @@ jobs:
 
       - name: Run tests
         run: npm test
+        env:
+          CI: true  # ensures Vitest runs correctly in headless mode
 
       - name: Run ESLint (code analysis)
         run: npm run lint
-        
+
       - name: Scan for secrets
         uses: gitleaks/gitleaks-action@v2
+        with:
+          format: sarif
+          output: results.sarif
+
+      - name: Upload Gitleaks report
+        uses: actions/upload-artifact@v3
+        with:
+          name: gitleaks-report-${{ github.run_id }}
+          path: results.sarif
