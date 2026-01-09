@@ -42,19 +42,16 @@ jobs:
       - name: Run ESLint (code analysis)
         run: npm run lint
 
-      - name: Scan for secrets
-        uses: gitleaks/gitleaks-action@v3
+      - name: Run Gitleaks secret scan
+        uses: gacts/gitleaks@v1
         with:
-          config_path: .gitleaks.toml  # optional if you have custom rules
-          redact: true
-          report_format: sarif
-          report_path: results-${{ matrix.node-version }}.sarif
-          exit_code: 2
-          verbose: true
+          version: latest         
+          config-path: ""         
+          path: "."               
 
-      - name: Upload Gitleaks report
+      - name: Upload Gitleaks JSON report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report-${{ github.run_id }}-${{ matrix.node-version }}
-          path: results-${{ matrix.node-version }}.sarif
-
+          path: ${{ steps.gitleaks.outputs.report }}
