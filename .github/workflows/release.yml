@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for changelog generation
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,12 +41,36 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-          git fetch --tags
-          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^)
-          echo "Previous tag: $LAST_TAG"
+          # Fetch tags more safely
+          git fetch --tags --force
+          
+          # Get the current tag
+          CURRENT_TAG="${{ github.ref_name }}"
+          echo "Current tag: $CURRENT_TAG"
+          
+          # Try to get the previous tag, handle case where this is the first tag
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous tag found, generating changelog from first commit"
+            CHANGELOG=$(git log --pretty=format:"- %s (%an)" --reverse)
+          else
+            echo "Previous tag: $LAST_TAG"
+            CHANGELOG=$(git log $LAST_TAG..HEAD --pretty=format:"- %s (%an)")
+          fi
+          
+          # Handle empty changelog
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="- Initial release"
+          fi
+          
+          # Set the changelog in environment
           echo "CHANGELOG<<EOF" >> $GITHUB_ENV
-          git log $LAST_TAG..HEAD --pretty=format:"- %s (%an)" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          
+          echo "Generated changelog:"
+          echo "$CHANGELOG"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -52,6 +78,20 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |
+            ## Changes in ${{ github.ref_name }}
+            
             ${{ env.CHANGELOG }}
+            
+            ## Build Information
+            - **Commit**: ${{ github.sha }}
+            - **Build Date**: ${{ github.event.head_commit.timestamp }}
+            - **Node.js Version**: 20
+            
+            ## Artifacts
+            This release includes the built application ready for deployment.
+          files: |
+            dist/**/*
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
