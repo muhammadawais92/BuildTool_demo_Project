@@ -43,13 +43,18 @@ jobs:
         run: npm run lint
 
       - name: Scan for secrets
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         with:
-          args: detect --redact -v --exit-code=2 --report-format=sarif --report-path=results.sarif
+          config_path: .gitleaks.toml  # optional if you have custom rules
+          redact: true
+          report_format: sarif
+          report_path: results-${{ matrix.node-version }}.sarif
+          exit_code: 2
+          verbose: true
 
       - name: Upload Gitleaks report
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report-${{ github.run_id }}-${{ matrix.node-version }}
-          path: results.sarif
+          path: results-${{ matrix.node-version }}.sarif
 
