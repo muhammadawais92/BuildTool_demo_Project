@@ -49,7 +49,7 @@ jobs:
           output: results.sarif
 
       - name: Upload Gitleaks report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: gitleaks-report-${{ github.run_id }}
           path: results.sarif
