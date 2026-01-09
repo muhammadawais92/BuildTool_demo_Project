@@ -54,4 +54,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report-${{ github.run_id }}-${{ matrix.node-version }}
-          path: ${{ steps.gitleaks.outputs.report }}
+          path: results-${{ matrix.node-version }}.sarif
